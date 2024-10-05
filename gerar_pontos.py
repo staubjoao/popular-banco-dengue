@@ -25,17 +25,18 @@ polygon_maringa = Polygon(polygon_coordinates)
 
 headers = {
     "accept": "*/*",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHN0YXViIiwiaXNzIjoiQXJib3Zpcm9zZXMiLCJyb2xlcyI6IltBRE1JTl0iLCJpYXQiOjE3MDY0MDE4ODUsImV4cCI6MTcwNjQ4ODI4NX0.ufPtAykLE-i6X1sOyDM8cQ_M5BSAirjmJDNEoGROnn84x9DqH86h-6X3m7cFhKd2w8zumVLduHlC9vZbR0LCnA",
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHN0YXViIiwiaXNzIjoiQXJib3Zpcm9zZXMiLCJyb2xlcyI6IltBRE1JTklTVFJBRE9SXSIsImlhdCI6MTcyODE1MTE3OCwiZXhwIjoxNzI4MjM3NTc4fQ.O900FpYkXVKC6UmAtnppNzFp49_-u5_CQvxH9mLdVFeZPVlwDXANfhbroaf1XODq2x96fabYjWeRiS6Z0qJ_pw",
     "Content-Type": "application/json",
 }
 
-url = "http://localhost:8080/api/visita-tratamento"
+url = "http://localhost:8081/api/visita-tratamento/postDto"
 
-for i in range(0, 15000):
+for i in range(0, 10000):
     ponto = generate_random_point_in_polygon(polygon_maringa)
 
     dias_atras = random.randint(0, 15)
     data_aleatoria = datetime.utcnow() - timedelta(days=dias_atras)
+    cargasAdulticida = random.randint(0, 5)
     depositoA1 = random.randint(0, 5)
     depositoA2 = random.randint(0, 5)
     depositoB = random.randint(0, 5)
@@ -45,8 +46,13 @@ for i in range(0, 15000):
     depositoE = random.randint(0, 5)
 
     payload = {
-        "agente": None,
         "data": data_aleatoria.isoformat() + "Z",
+        "larvaEncontrada": True,
+        "imovel_insp": True,
+        "imovel_tratado": True,
+        "observacao": "",
+        "reclamacao": "",
+        "educacaoRealizada": True,
         "depositoA1": depositoA1,
         "depositoA2": depositoA2,
         "depositoB": depositoB,
@@ -55,16 +61,19 @@ for i in range(0, 15000):
         "depositoD2": depositoD2,
         "depositoE": depositoE,
         "depositoEliminado": 1,
-        "educacaoRealizada": True,
-        "imovelInspecionadoLI": True,
-        "imovelTratado": True,
-        "larvaEncontrada": True,
-        "observacao": "teste",
-        "observacoes": "teste",
         "latitude": str(ponto.y),
         "longitude": str(ponto.x),
-        "reclamacao": "teste",
-        "tipoVisita": None,
+        "tipo_visita": "NORMAL",
+        "larvicida1": "NATULAR_DT",
+        "quantidadeLarvicida1": 1,
+        "nmrDepositosTratadosLarvicida1": 1,
+        "larvicida2": "NATULAR_DT",
+        "nmrDepositosTratadosLarvicida2": 1,
+        "quantidadeLarvicida2": 1,
+        "adulticida": "FLUDORA",
+        "cargasAdulticida": 1,
+        "agentePrincipalId": 1,
+        "idImovel": "df498adb-6583-438c-a050-f54453f08db3"
     }
 
     payload_json = json.dumps(payload)
@@ -76,9 +85,9 @@ for i in range(0, 15000):
     print(response.text)
     print("\n")
 
-url = "http://localhost:8080/api/visita-bloqueio"
+url = "http://localhost:8080/api/visita-bloqueio/postDto"
 
-for i in range(15000):
+for i in range(1):
     dias_atras = random.randint(0, 15)
     data_aleatoria = datetime.utcnow() - timedelta(days=dias_atras)
     depositoA1 = random.randint(0, 5)
@@ -90,7 +99,7 @@ for i in range(15000):
     depositoE = random.randint(0, 5)
 
     payload = {
-        "agente": None,
+        "agentePrincipal": None,
         "data": data_aleatoria.isoformat() + "Z",
         "depositoA1": depositoA1,
         "depositoA2": depositoA2,
